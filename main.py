@@ -1,9 +1,14 @@
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import TfidfVectorizer
+from nltk.corpus import stopwords
+import re
+import nltk
 Here are some improvements to the Python program:
 
 1. Move imports to the top and group them together for better readability.
 2. Use a single line import for nltk stopwords instead of importing the entire module.
 3. Add type hints to function parameters and return types for better understandability.
-4. Use a class-level constant for the NLP resource name.
+4. Use a class -level constant for the NLP resource name.
 5. Move the NLP resources initialization to a separate method for better organization.
 6. Use list comprehension for the preprocess_query function to improve readability.
 7. Add docstrings to class methods for better documentation.
@@ -13,11 +18,6 @@ Here are some improvements to the Python program:
 
 Here's the improved code:
 
-import nltk
-import re
-from nltk.corpus import stopwords
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 
 class VirtualShoppingAssistant:
     STOPWORDS = set(stopwords.words('english'))
@@ -30,9 +30,9 @@ class VirtualShoppingAssistant:
     def initialize_nlp_resources(self):
         # Initialize NLP resources
         nltk.download('stopwords')
-        
+
         self.vectorizer = TfidfVectorizer()
-    
+
     def preprocess_query(self, query: str) -> str:
         """
         Clean and preprocess user query.
@@ -44,7 +44,8 @@ class VirtualShoppingAssistant:
             Preprocessed query.
         """
         query = re.sub("[^a-zA-Z0-9]", " ", query).lower()
-        query = " ".join([word for word in query.split() if word not in self.STOPWORDS])
+        query = " ".join([word for word in query.split()
+                         if word not in self.STOPWORDS])
         return query
 
     def get_user_preferences(self, query: str) -> dict:
@@ -121,14 +122,17 @@ class VirtualShoppingAssistant:
 
             if 'recommendations' in query:
                 user_preferences = self.get_user_preferences(query)
-                recommendations = self.generate_recommendations(user_preferences)
+                recommendations = self.generate_recommendations(
+                    user_preferences)
                 for product in recommendations:
                     print(product)
 
             elif 'compare' in query:
-                products_to_compare = re.findall(r'compare (.*) and (.*)', query)
+                products_to_compare = re.findall(
+                    r'compare (.*) and (.*)', query)
                 if products_to_compare:
-                    compared_products = self.compare_products(products_to_compare)
+                    compared_products = self.compare_products(
+                        products_to_compare)
                     for product in compared_products:
                         print(product)
 
@@ -151,6 +155,7 @@ class VirtualShoppingAssistant:
 
             else:
                 print("Assistant: Sorry, I am not able to assist with that.")
+
 
 if __name__ == '__main__':
     assistant = VirtualShoppingAssistant()
